@@ -26,13 +26,13 @@ void sendFile(int new_sock){
         printf("[x]fp is null[x]\n");
     while(!feof(fp)){
         n = fread(data, sizeof(unsigned char), SIZE, fp); 
-//        printf("this is the html %s\n", data);
+        printf("n == %d\n", n);
         if(n < 1){
             break;
         }
             
     }
-    if(send(new_sock, data, sizeof(data), 0) < 0){
+    if(send(new_sock, data, n, 0) < 0){
         printf("[x]Sending of html file failed[x]\n");
         exit(1);
     }
