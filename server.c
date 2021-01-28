@@ -14,7 +14,7 @@ void sendFile(int new_sock){
     int n;
     FILE *fp;
     int file_size;
-    char *data[202];
+    char *data[SIZE];
 
     fp = fopen(FILE_NAME, "r");
     fseek(fp, 0, SEEK_END);
@@ -25,7 +25,7 @@ void sendFile(int new_sock){
     if(fp == NULL)
         printf("[x]fp is null[x]\n");
     while(!feof(fp)){
-        n = fread(data, sizeof(unsigned char), file_size, fp); 
+        n = fread(data, sizeof(unsigned char), SIZE, fp); 
 //        printf("this is the html %s\n", data);
         if(n < 1){
             break;
