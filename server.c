@@ -7,16 +7,15 @@
 #include <sys/types.h>
 
 #define PORT 8080
-#define FILE_NAME "index.html"
-#define SIZE 1024
+#define FILE_INDEX "index.html"
+#define FILE_INFO "info.html"
+#define SIZE 11000
 
-void sendFile(int new_sock){
+void sendFile(int new_sock, FILE *fp){
     int n;
-    FILE *fp;
     int file_size;
     char *data[SIZE];
 
-    fp = fopen(FILE_NAME, "r");
     fseek(fp, 0, SEEK_END);
     file_size = ftell(fp);
     fseek(fp, 0, SEEK_SET);
@@ -26,7 +25,6 @@ void sendFile(int new_sock){
         printf("[x]fp is null[x]\n");
     while(!feof(fp)){
         n = fread(data, sizeof(unsigned char), SIZE, fp); 
-        printf("n == %d\n", n);
         if(n < 1){
             break;
         }
@@ -93,8 +91,13 @@ int main() {
        printf("[+]Connection made with %s\n", inet_ntoa(client.sin_addr));
        printf("%s\n", lines); 
 
+       FILE *fp1;
+       FILE *fp2;
+       fp1 = fopen(FILE_INDEX, "r");
+       fp2 = fopen(FILE_INFO, "r");
+
        printf("%s", lines);
-       sendFile(new_sock);
+       sendFile(new_sock, fp1);
        printf("%s\n", lines);
 
     }
