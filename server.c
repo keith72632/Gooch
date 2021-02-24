@@ -5,6 +5,7 @@
 #include <string.h>
 #include <sys/socket.h>
 #include <sys/types.h>
+#include <time.h>
 
 #define PORT 8080
 #define FILE_INDEX "index.html"
@@ -57,6 +58,8 @@ int bindSocket(int server_sock){
 }
 
 int main() {
+    time_t raw_time;
+    struct tm * time_info;
     int server_sock;
     char *lines = "+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++\n";
 
@@ -83,12 +86,16 @@ int main() {
         memset(&client, '\0', sizeof(client));
         int clientLen = sizeof(client);
 
+        //time
+        time(&raw_time);
+        time_info = localtime(&raw_time);
         if((new_sock = accept(server_sock, (struct sockaddr *)&client, (socklen_t*)&clientLen)) < 0){
             printf("client could not connect\n");
             exit(1);
         }
        printf("%s", lines);
        printf("[+]Connection made with %s\n", inet_ntoa(client.sin_addr));
+       printf ("[+]time and date: %s", asctime (time_info) );
        printf("%s\n", lines); 
 
        FILE *fp1;
